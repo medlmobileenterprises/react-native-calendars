@@ -36,9 +36,16 @@ export default function styleConstructor(theme = {}) {
       fontSize: 13,
       color: appStyle.textSectionTitleColor,
     },
+    reservationsToggle: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+      marginBottom: 10
+    },
     reservations: {
       flex: 1,
-      marginTop: 104,
+      marginTop: 250,
       backgroundColor: appStyle.backgroundColor
     },
   });

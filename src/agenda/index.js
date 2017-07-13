@@ -16,7 +16,8 @@ import ReservationsList from './reservation-list';
 import styleConstructor from './style';
 import { VelocityTracker } from '../input';
 
-const HEADER_HEIGHT = 104;
+//const HEADER_HEIGHT = 104;
+const HEADER_HEIGHT = 250;
 const KNOB_HEIGHT = 24;
 
 export default class AgendaView extends Component {
@@ -70,6 +71,8 @@ export default class AgendaView extends Component {
       firstResevationLoad: false,
       selectedDay: parseDate(this.props.selected) || XDate(true),
       topDay: parseDate(this.props.selected) || XDate(true),
+      pickedUpLoopsSelected: true,
+      availableLoopsSelected: false
     };
     this.currentMonth = this.state.selectedDay.clone();
     this.onLayout = this.onLayout.bind(this);
@@ -86,7 +89,7 @@ export default class AgendaView extends Component {
   }
 
   initialScrollPadPosition() {
-    return Math.max(0, this.viewHeight - HEADER_HEIGHT);
+    return this.viewHeight - HEADER_HEIGHT;
   }
 
   setScrollPadPosition(y, animated) {
@@ -212,6 +215,70 @@ export default class AgendaView extends Component {
     }
   }
 
+  onPickedUpLoopsPressed() {
+    console.log("pressed picked up");
+    if (!this.state.pickedUpLoopsSelected) {
+      this.setState({
+        pickedUpLoopsSelected: true,
+        availableLoopsSelected: false
+      });
+    }
+  }
+
+  onAvailableLoopsPressed() {
+    console.log("pressed available");
+    if (!this.state.availableLoopsSelected) {
+      this.setState({
+        pickedUpLoopsSelected: false,
+        availableLoopsSelected: true
+      });
+    }
+  }
+
+  renderPickedUpLoopsText() {
+    if (this.state.pickedUpLoopsSelected) {
+      return (
+        <Text 
+          style={{flex: 1, marginLeft: 30, fontWeight: 'bold'}} 
+          onPress={this.onPickedUpLoopsPressed.bind(this)}
+          >
+            Picked Up Loops
+        </Text>
+      );
+    } else {
+      return (
+        <Text 
+          style={{flex: 1, marginLeft: 30}} 
+          onPress={this.onPickedUpLoopsPressed.bind(this)}
+          >
+            Picked Up Loops
+        </Text>
+      );
+    }
+  }
+
+  renderAvailableLoopsText() {
+    if (this.state.availableLoopsSelected) {
+      return (
+        <Text 
+          style={{flex: 1, marginLeft: 30, fontWeight: 'bold'}} 
+          onPress={this.onAvailableLoopsPressed.bind(this)}
+          >
+            Available Loops
+        </Text>
+      );
+    } else {
+      return (
+        <Text 
+          style={{flex: 1, marginLeft: 30}} 
+          onPress={this.onAvailableLoopsPressed.bind(this)}
+          >
+            Available Loops
+        </Text>
+      );
+    }
+  }
+
   renderReservations() {
     return (
       <ReservationsList
@@ -244,7 +311,7 @@ export default class AgendaView extends Component {
   }
 
   render() {
-    const agendaHeight = Math.max(0, this.viewHeight - HEADER_HEIGHT);
+    const agendaHeight = this.viewHeight - HEADER_HEIGHT;
     const weekDaysNames = dateutils.weekDayNames(this.props.firstDay);
     const weekdaysStyle = [this.styles.weekdays, {
       opacity: this.state.scrollY.interpolate({
@@ -253,7 +320,7 @@ export default class AgendaView extends Component {
         extrapolate: 'clamp',
       }),
       transform: [{ translateY: this.state.scrollY.interpolate({
-        inputRange: [Math.max(0, agendaHeight - HEADER_HEIGHT), agendaHeight],
+        inputRange: [agendaHeight - HEADER_HEIGHT, agendaHeight],
         outputRange: [-HEADER_HEIGHT, 0],
         extrapolate: 'clamp',
       })}]
@@ -300,6 +367,10 @@ export default class AgendaView extends Component {
     return (
       <View onLayout={this.onLayout} style={[this.props.style, {flex: 1}]}>
         <View style={this.styles.reservations}>
+          <View style={this.styles.reservationsToggle}>
+            {this.renderPickedUpLoopsText()}
+            {this.renderAvailableLoopsText()}
+          </View>
           {this.renderReservations()}
         </View>
         <Animated.View style={headerStyle}>
@@ -315,6 +386,7 @@ export default class AgendaView extends Component {
               scrollingEnabled={this.state.calendarScrollable}
               hideExtraDays={this.state.calendarScrollable}
               firstDay={this.props.firstDay}
+              theme={this.props.theme}
               monthFormat={this.props.monthFormat}
             />
           </Animated.View>
