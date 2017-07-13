@@ -239,7 +239,7 @@ export default class AgendaView extends Component {
     if (this.state.pickedUpLoopsSelected) {
       return (
         <Text 
-          style={{flex: 1, marginLeft: 30, fontWeight: 'bold'}} 
+          style={{flex: 1, textAlign: 'center', fontWeight: 'bold'}} 
           onPress={this.onPickedUpLoopsPressed.bind(this)}
           >
             Picked Up Loops
@@ -248,7 +248,7 @@ export default class AgendaView extends Component {
     } else {
       return (
         <Text 
-          style={{flex: 1, marginLeft: 30}} 
+          style={{flex: 1, textAlign: 'center'}} 
           onPress={this.onPickedUpLoopsPressed.bind(this)}
           >
             Picked Up Loops
@@ -261,7 +261,7 @@ export default class AgendaView extends Component {
     if (this.state.availableLoopsSelected) {
       return (
         <Text 
-          style={{flex: 1, marginLeft: 30, fontWeight: 'bold'}} 
+          style={{flex: 1, textAlign: 'center', fontWeight: 'bold'}} 
           onPress={this.onAvailableLoopsPressed.bind(this)}
           >
             Available Loops
@@ -270,7 +270,7 @@ export default class AgendaView extends Component {
     } else {
       return (
         <Text 
-          style={{flex: 1, marginLeft: 30}} 
+          style={{flex: 1, textAlign: 'center'}} 
           onPress={this.onAvailableLoopsPressed.bind(this)}
           >
             Available Loops
