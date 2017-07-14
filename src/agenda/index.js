@@ -48,6 +48,9 @@ export default class AgendaView extends Component {
     // specify your item comparison function for increased performance
     rowHasChanged: PropTypes.func,
 
+    // specify what should happen when the filter type has changed
+    loopTypeChanged: PropTypes.func,
+
     // initially selected day
     selected: PropTypes.any,
 
@@ -72,7 +75,7 @@ export default class AgendaView extends Component {
       selectedDay: parseDate(this.props.selected) || XDate(true),
       topDay: parseDate(this.props.selected) || XDate(true),
       pickedUpLoopsSelected: true,
-      availableLoopsSelected: false
+      availableLoopsSelected: false,
     };
     this.currentMonth = this.state.selectedDay.clone();
     this.onLayout = this.onLayout.bind(this);
@@ -221,7 +224,7 @@ export default class AgendaView extends Component {
       this.setState({
         pickedUpLoopsSelected: true,
         availableLoopsSelected: false
-      });
+      }, this.props.loopTypeChanged());
     }
   }
 
@@ -231,7 +234,7 @@ export default class AgendaView extends Component {
       this.setState({
         pickedUpLoopsSelected: false,
         availableLoopsSelected: true
-      });
+      }, this.props.loopTypeChanged());
     }
   }
 
@@ -367,7 +370,10 @@ export default class AgendaView extends Component {
     return (
       <View onLayout={this.onLayout} style={[this.props.style, {flex: 1}]}>
         <View style={this.styles.reservations}>
-          <View style={this.styles.reservationsToggle}>
+          <View 
+            style={this.styles.reservationsToggle}
+            loopTypeChanged={this.props.loopTypeChanged}
+          >
             {this.renderPickedUpLoopsText()}
             {this.renderAvailableLoopsText()}
           </View>
