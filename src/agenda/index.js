@@ -224,7 +224,7 @@ export default class AgendaView extends Component {
       this.setState({
         pickedUpLoopsSelected: true,
         availableLoopsSelected: false
-      }, this.props.loopTypeChanged());
+      }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
     }
   }
 
@@ -234,7 +234,7 @@ export default class AgendaView extends Component {
       this.setState({
         pickedUpLoopsSelected: false,
         availableLoopsSelected: true
-      }, this.props.loopTypeChanged());
+      }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
     }
   }
 
