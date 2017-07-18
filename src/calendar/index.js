@@ -138,13 +138,14 @@ class Calendar extends Component {
   }
 
   renderDay(day, id) {
-    console.log("raw data: ", this.props.rawData);
-    console.log("unavailabilites: ", this.props.unavailabilities);
     const minDate = parseDate(this.props.minDate);
     const maxDate = parseDate(this.props.maxDate);
     let state = '';
+    
     if (this.isSelected(day)) {
       state = 'selected';
+    } else if (this.dayHasUnavailability(day)) {
+      state = 'unavailable';
     } else if ((minDate && !dateutils.isGTE(day, minDate)) || (maxDate && !dateutils.isLTE(day, maxDate))) {
       state = 'disabled';
     } else if (!dateutils.sameMonth(day, this.state.currentMonth)) {
@@ -180,7 +181,9 @@ class Calendar extends Component {
 
   dayHasUnavailability(day) {
     for (let i = 0; i < this.props.unavailabilities.length; i++) {
-      if (this.props.unavailabilities[i].date == day) {
+      let date = new Date(day);
+      let unavailableDate = new Date(this.props.unavailabilities[i].starts_at);
+      if (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate()) {
         return true;
       }
     }
