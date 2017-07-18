@@ -11,7 +11,7 @@ import styleConstructor from './style';
 class Day extends Component {
   static propTypes = {
     // TODO: selected + disabled props should be removed
-    state: PropTypes.oneOf(['selected', 'disabled', 'today', '']),
+    state: PropTypes.oneOf(['selected', 'disabled', 'today', '', 'unavailable', 'event']),
 
     // Specify theme properties to override specific styles for calendar parts. Default = {}
     theme: PropTypes.object,
@@ -61,6 +61,10 @@ class Day extends Component {
       textStyle.push(this.style.disabledText);
     } else if (this.props.state === 'today') {
       textStyle.push(this.style.todayText);
+    } else if (this.props.state === 'unavailable') {
+      textStyle.push(this.style.unavailableText);
+    } else if (this.props.state === 'event') {
+      textStyle.push(this.style.eventText);
     }
     return (
       <TouchableOpacity style={containerStyle} onPress={this.props.onPress}>

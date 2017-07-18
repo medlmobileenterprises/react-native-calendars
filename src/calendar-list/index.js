@@ -26,6 +26,11 @@ class CalendarList extends Component {
 
     // Enable or disable scrolling of calendar list
     scrollEnabled: PropTypes.bool,
+
+    // Raw data to feed to the calendar component
+    rawData: PropTypes.array,
+    // Unavailabilities for calendar use
+    unavailabilities: PropTypes.array
   };
 
   constructor(props) {
@@ -82,6 +87,8 @@ class CalendarList extends Component {
           maxDate={this.props.maxDate}
           firstDay={this.props.firstDay}
           monthFormat={this.props.monthFormat}
+          rawData={this.props.rawData}
+          unavailabilities={this.props.unavailabilities}
         />);
     } else {
       const text = row.toString();

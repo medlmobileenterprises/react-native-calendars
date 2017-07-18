@@ -54,7 +54,12 @@ class Calendar extends Component {
     // Replace default arrows with custom ones (direction can be 'left' or 'right')
     renderArrow: PropTypes.func,
     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-    monthFormat: PropTypes.string
+    monthFormat: PropTypes.string,
+
+    //Raw data to be used to render days of the calendar apropriately 
+    rawData: PropTypes.array,
+    // Unavailabilities for calendar use
+    unavailabilities: PropTypes.array
   };
 
   constructor(props) {
@@ -133,6 +138,8 @@ class Calendar extends Component {
   }
 
   renderDay(day, id) {
+    console.log("raw data: ", this.props.rawData);
+    console.log("unavailabilites: ", this.props.unavailabilities);
     const minDate = parseDate(this.props.minDate);
     const maxDate = parseDate(this.props.maxDate);
     let state = '';
@@ -169,6 +176,19 @@ class Calendar extends Component {
         );
     }
     return dayComp;
+  }
+
+  dayHasUnavailability(day) {
+    for (let i = 0; i < this.props.unavailabilities.length; i++) {
+      if (this.props.unavailabilities[i].date == day) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  dayHasEvent() {
+
   }
 
   getDateMarking(day) {

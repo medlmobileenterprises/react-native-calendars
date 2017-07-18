@@ -33,6 +33,12 @@ export default function styleConstructor(theme={}) {
     disabledText: {
       color: appStyle.textDisabledColor
     },
+    unavailableText: {
+      color: appStyle.textUnavailableColor
+    },
+    eventText: {
+      color: appStyle.textEventColor
+    },
     dot: {
       width: 4,
       height: 4,
