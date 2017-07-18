@@ -83,7 +83,7 @@ class CalendarList extends Component {
           markingType={this.props.markingType}
           onDayPress={this.props.onDayPress}
           displayLoadingIndicator={this.props.displayLoadingIndicator}
-          minDate={this.props.minDate}
+          minDate={this.getCurrentDate()}
           maxDate={this.props.maxDate}
           firstDay={this.props.firstDay}
           monthFormat={this.props.monthFormat}
@@ -98,6 +98,10 @@ class CalendarList extends Component {
         </View>
       );
     }
+  }
+
+  getCurrentDate() {
+    return new Date();
   }
 
   scrollToDay(d, offset, animated) {
