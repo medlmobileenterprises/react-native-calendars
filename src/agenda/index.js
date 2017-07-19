@@ -246,21 +246,27 @@ export default class AgendaView extends Component {
   renderPickedUpLoopsText() {
     if (this.state.pickedUpLoopsSelected) {
       return (
-        <Text 
-          style={{flex: 1, textAlign: 'center', fontWeight: 'bold'}} 
-          onPress={this.onPickedUpLoopsPressed.bind(this)}
-          >
-            Picked Up Loops
-        </Text>
+        <View style={{flex: 0, flexDirection: 'column'}}>
+          <Text 
+            style={{flex: 1, textAlign: 'center', fontWeight: 'bold', color: '#5f5d70'}} 
+            onPress={this.onPickedUpLoopsPressed.bind(this)}
+            >
+              Picked Up Loops
+          </Text>
+          <View style={{backgroundColor: '#036e33', height: 5}}/>
+        </View>
       );
     } else {
       return (
-        <Text 
-          style={{flex: 1, textAlign: 'center'}} 
-          onPress={this.onPickedUpLoopsPressed.bind(this)}
-          >
-            Picked Up Loops
-        </Text>
+        <View style={{flex: 0, flexDirection: 'column'}}>
+          <Text 
+            style={{flex: 1, textAlign: 'center', color: '#dad9e3'}} 
+            onPress={this.onPickedUpLoopsPressed.bind(this)}
+            >
+              Picked Up Loops
+          </Text>
+          <View style={{backgroundColor: '#036e33', height: 5}}/>
+        </View>
       );
     }
   }
@@ -268,21 +274,27 @@ export default class AgendaView extends Component {
   renderAvailableLoopsText() {
     if (this.state.availableLoopsSelected) {
       return (
-        <Text 
-          style={{flex: 1, textAlign: 'center', fontWeight: 'bold'}} 
-          onPress={this.onAvailableLoopsPressed.bind(this)}
-          >
-            Available Loops
-        </Text>
+        <View style={{flex: 0, flexDirection: 'column'}}>
+          <Text 
+            style={{flex: 1, textAlign: 'center', fontWeight: 'bold', color: '#5f5d70'}} 
+            onPress={this.onAvailableLoopsPressed.bind(this)}
+            >
+              Available Loops
+          </Text>
+          <View style={{backgroundColor: '#036e33', height: 5}}/>
+        </View>
       );
     } else {
       return (
-        <Text 
-          style={{flex: 1, textAlign: 'center'}} 
-          onPress={this.onAvailableLoopsPressed.bind(this)}
-          >
-            Available Loops
-        </Text>
+        <View style={{flex: 0, flexDirection: 'column'}}>
+          <Text 
+            style={{flex: 1, textAlign: 'center', color: '#dad9e3'}} 
+            onPress={this.onAvailableLoopsPressed.bind(this)}
+            >
+              Available Loops
+          </Text>
+          <View style={{backgroundColor: '#036e33', height: 5}}/>
+        </View>
       );
     }
   }
