@@ -21,14 +21,14 @@ export const textDayHeaderFontSize = 13;
 
 export const calendarBackground = foregroundColor;
 export const textSectionTitleColor = '#b6c1cd';
-export const selectedDayBackgroundColor = textLinkColor;
+export const selectedDayBackgroundColor = '#9d9d9d';
 export const selectedDayTextColor = foregroundColor;
 export const todayTextColor = textLinkColor;
 export const dayTextColor = textDefaultColor;
 export const textDisabledColor = '#d9e1e8';
 export const textUnavailableColor = '#ff3f3f';
 export const textEventcolor = '#036e33';
-export const dotColor = textLinkColor;
+export const dotColor = '#036e33';
 export const selectedDotColor = foregroundColor;
 export const arrowColor = textLinkColor;
 export const monthTextColor = textDefaultColor;

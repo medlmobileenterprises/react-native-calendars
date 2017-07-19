@@ -146,6 +146,8 @@ class Calendar extends Component {
       state = 'selected';
     } else if (this.dayHasUnavailability(day)) {
       state = 'unavailable';
+    } else if (this.dayHasEvent(day)) {
+      state = 'event';
     } else if ((minDate && !dateutils.isGTE(day, minDate)) || (maxDate && !dateutils.isLTE(day, maxDate))) {
       state = 'disabled';
     } else if (!dateutils.sameMonth(day, this.state.currentMonth)) {
@@ -191,7 +193,14 @@ class Calendar extends Component {
   }
 
   dayHasEvent() {
-
+    for (let i = 0; i < this.props.rawData.length; i++) {
+      let date = new Date(day);
+      let eventDate = new Date(this.props.rawData[i].tee_time_at);
+      if (date.getMonth() === eventDate.getMonth() && date.getDate() === eventDate.getDate()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   getDateMarking(day) {
