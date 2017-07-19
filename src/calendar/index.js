@@ -192,7 +192,7 @@ class Calendar extends Component {
     return false;
   }
 
-  dayHasEvent() {
+  dayHasEvent(day) {
     for (let i = 0; i < this.props.rawData.length; i++) {
       let date = new Date(day);
       let eventDate = new Date(this.props.rawData[i].tee_time_at);
