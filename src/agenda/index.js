@@ -248,7 +248,7 @@ export default class AgendaView extends Component {
       return (
         <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
           <Text 
-            style={{textAlign: 'center', fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
+            style={{textAlign: 'center', textSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
             onPress={this.onPickedUpLoopsPressed.bind(this)}
             >
             Picked Up Loops
@@ -260,7 +260,7 @@ export default class AgendaView extends Component {
       return (
         <View style={{flex: 1}}>
           <Text 
-            style={{flex: 0, textAlign: 'center', color: '#dad9e3'}} 
+            style={{flex: 0, textSize: 15, textAlign: 'center', color: '#dad9e3'}} 
             onPress={this.onPickedUpLoopsPressed.bind(this)}
             >
               Picked Up Loops
@@ -275,7 +275,7 @@ export default class AgendaView extends Component {
       return (
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text 
-            style={{textAlign: 'center', fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
+            style={{textAlign: 'center', textSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
             onPress={this.onAvailableLoopsPressed.bind(this)}
             >
             Available Loops
@@ -287,7 +287,7 @@ export default class AgendaView extends Component {
       return (
         <View style={{flex: 1}}>
           <Text 
-            style={{flex: 0, textAlign: 'center', color: '#dad9e3'}} 
+            style={{flex: 0, textSize: 15, textAlign: 'center', color: '#dad9e3'}} 
             onPress={this.onAvailableLoopsPressed.bind(this)}
             >
               Available Loops
