@@ -182,6 +182,7 @@ class Calendar extends Component {
   }
 
   dayHasUnavailability(day) {
+    if (!this.props.unavailabilities) {return false;}
     for (let i = 0; i < this.props.unavailabilities.length; i++) {
       let date = new Date(day);
       let unavailableDate = new Date(this.props.unavailabilities[i].starts_at);
@@ -193,6 +194,7 @@ class Calendar extends Component {
   }
 
   dayHasEvent(day) {
+    if (!this.props.rawData) {return false;}
     for (let i = 0; i < this.props.rawData.length; i++) {
       let date = new Date(day);
       let eventDate = new Date(this.props.rawData[i].tee_time_at);
