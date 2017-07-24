@@ -75,7 +75,7 @@ export default class AgendaView extends Component {
     this.headerState = 'idle';
     this.state = {
       scrollY: new Animated.Value(0),
-      calendarScrollable: false,
+      calendarScrollable: true,
       firstResevationLoad: false,
       selectedDay: parseDate(this.props.selected) || XDate(true),
       topDay: parseDate(this.props.selected) || XDate(true),
@@ -205,7 +205,7 @@ export default class AgendaView extends Component {
   chooseDay(d) {
     const day = parseDate(d);
     this.setState({
-      calendarScrollable: false,
+
       selectedDay: day.clone()
     });
     if (this.state.calendarScrollable) {
