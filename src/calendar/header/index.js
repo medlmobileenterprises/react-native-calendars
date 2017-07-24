@@ -90,11 +90,7 @@ class CalendarHeader extends Component {
           </View>
           {rightArrow}
         </View>
-        <View style={this.style.week}>
-          {weekDaysNames.map((day, idx) => (
-            <Text key={idx} style={this.style.dayHeader}>{day}</Text>
-          ))}
-        </View>
+
       </View>
     );
   }
