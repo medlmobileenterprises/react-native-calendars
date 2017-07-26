@@ -11,13 +11,13 @@ export const textColor = '#43515c';
 export const textLinkColor = '#00adf5';
 export const textSecondaryColor = '#7a92a5';
 
-export const textDayFontFamily = 'System';
-export const textMonthFontFamily = 'System';
-export const textDayHeaderFontFamily = 'System';
+export const textDayFontFamily = 'Lato-Bold';
+export const textMonthFontFamily = 'Lato-Bold';
+export const textDayHeaderFontFamily = 'Lato-Bold';
 
-export const textDayFontSize = 16;
-export const textMonthFontSize = 16;
-export const textDayHeaderFontSize = 13;
+export const textDayFontSize = 12;
+export const textMonthFontSize = 20;
+export const textDayHeaderFontSize = 12;
 
 export const calendarBackground = foregroundColor;
 export const textSectionTitleColor = '#b6c1cd';

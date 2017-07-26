@@ -40,12 +40,12 @@ export default function styleConstructor(theme = {}) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 10,
-      marginBottom: 10
+      marginTop: 8,
+      marginBottom: 0
     },
     reservations: {
       flex: 1,
-      marginTop: 250,
+      marginTop: 300,
       backgroundColor: appStyle.backgroundColor
     },
   });

@@ -14,7 +14,6 @@ export default function(theme={}) {
     monthText: {
       fontSize: appStyle.textMonthFontSize,
       fontFamily: appStyle.textMonthFontFamily,
-      fontWeight: '300',
       color: appStyle.monthTextColor,
       margin: 10
     },
@@ -43,7 +42,7 @@ export default function(theme={}) {
       textAlign: 'center',
       fontSize: appStyle.textDayHeaderFontSize,
       fontFamily: appStyle.textDayHeaderFontFamily,
-      color: appStyle.textSectionTitleColor
+      color: 'black'
     }
   });
 }

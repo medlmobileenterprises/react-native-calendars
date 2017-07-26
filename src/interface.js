@@ -35,9 +35,15 @@ function parseDate(d) {
     return XDate(d, true);
   }
 }
-
+function parseMonthInt(d){
+  if(d instanceof XDate){
+    return parseInt(d.toString('MM'));
+  }
+  return null;
+}
 module.exports = {
   xdateToData,
-  parseDate
+  parseDate,
+  parseMonthInt
 };
 
