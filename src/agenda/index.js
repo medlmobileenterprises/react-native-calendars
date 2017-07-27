@@ -83,8 +83,9 @@ export default class AgendaView extends Component {
       topDay: parseDate(this.props.selected) || XDate(true),
       pickedUpLoopsSelected: true,
       availableLoopsSelected: false,
+      currentMonth : parseDate(this.props.selected) || XDate(true)
     };
-    this.currentMonth = this.state.selectedDay.clone();
+
     this.onLayout = this.onLayout.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
@@ -206,7 +207,8 @@ export default class AgendaView extends Component {
   chooseDay=(d)=> {
     const day = parseDate(d);
     this.setState({
-      selectedDay: day.clone()
+      selectedDay: day.clone(),
+      currentMonth:day.clone()
     });
     if (this.state.calendarScrollable) {
       this.setState({
@@ -329,7 +331,8 @@ export default class AgendaView extends Component {
 
 
     this.setState({
-      selectedDay: parseDate(day)
+      selectedDay: parseDate(day),
+      currentMonth:parseDate(day)
     });
 
     if (this.props.onDayChange) {
@@ -393,7 +396,7 @@ export default class AgendaView extends Component {
                 hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
                 disableMonthChange={false}
                 markedDates={this.props.items}
-                current={this.currentMonth}
+                current={this.state.currentMonth}
                 markingType={this.props.markingType}
                 onDayPress={this.chooseDay}
                 displayLoadingIndicator={this.props.displayLoadingIndicator}
