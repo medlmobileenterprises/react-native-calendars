@@ -223,6 +223,10 @@ export default class AgendaView extends Component {
     if (this.props.onDayPress) {
       this.props.onDayPress(xdateToData(day));
     }
+    setTimeout(()=>{
+      this.list.scrollOver = true;
+    }, 500)
+
   }
 
   onPickedUpLoopsPressed() {
