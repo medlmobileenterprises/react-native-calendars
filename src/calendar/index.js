@@ -197,15 +197,10 @@ class Calendar extends Component {
   dayHasEvent(day) {
     if (!this.props.rawData) {return false;}
     for (let i = 0; i < this.props.rawData.length; i++) {
-      let date = new XDate(day).toString('yyyy-MM-dd');
-      let eventDate = new XDate(this.props.rawData[i].tee_time_at).toString('yyyy-MM-dd');
-      if (date === eventDate) {
-        if(this.props.tabSelected === 'pickup-loops'){
-          return (!this.props.rawData[i].available);
-        }
-        else if (this.props.tabSelected === 'available-loops'){
-          return (this.props.rawData[i].available);
-        }
+      let date = new Date(day);
+      let eventDate = new Date(this.props.rawData[i].tee_time_at);
+      if (date.getMonth() === eventDate.getMonth() && date.getDate() === eventDate.getDate()) {
+        return true;
       }
     }
     return false;
