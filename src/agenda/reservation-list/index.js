@@ -33,6 +33,7 @@ class ReactComp extends Component {
 
     selectedDay: PropTypes.instanceOf(XDate),
     topDay: PropTypes.instanceOf(XDate),
+    tabSelected: PropTypes.oneOf(['pickup-loops', 'available-loops']),
   };
 
   constructor(props) {
@@ -171,13 +172,24 @@ class ReactComp extends Component {
     const day = iterator.clone();
     const res = props.reservations[day.toString('yyyy-MM-dd')];
     if (res && res.length) {
-      return res.map((reservation, i) => {
-        return {
-          reservation,
-          date: i ? false : day,
-          day
-        };
-      });
+      const obj =  res.reduce((result, reservation) => {
+        if(this.props.tabSelected === 'pickup-loops'){
+          if(!reservation.bookingObj.available){
+            result.push({reservation,
+                          date: result.length ? false : day,
+                          day});
+          }
+        }
+        else if (this.props.tabSelected === 'available-loops'){
+          if(reservation.bookingObj.available){
+            result.push({reservation,
+              date: result.length ? false : day,
+              day});
+          }
+        }
+        return result;
+      },[]);
+      return obj;
     } else if (res) {
       return [{
         date: iterator.clone(),

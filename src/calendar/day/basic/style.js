@@ -40,10 +40,10 @@ export default function styleConstructor(theme={}) {
       color: appStyle.textEventColor
     },
     dot: {
-      width: 6,
-      height: 6,
-      marginTop: 1,
-      borderRadius: 3,
+      width: 4,
+      height: 4,
+      marginTop: 0,
+      borderRadius: 2,
       opacity: 0
     },
     visibleDot: {

@@ -64,7 +64,8 @@ export default class AgendaView extends Component {
     // Raw data for use
     rawData: PropTypes.array,
     // Unavailabilities for calendar use
-    unavailabilities: PropTypes.array
+    unavailabilities: PropTypes.array,
+
   };
 
   constructor(props) {
@@ -75,15 +76,15 @@ export default class AgendaView extends Component {
     this.viewWidth = windowSize.width;
     this.scrollTimeout = undefined;
     this.headerState = 'idle';
+
     this.state = {
       scrollY: new Animated.Value(0),
       calendarScrollable: true,
       firstResevationLoad: false,
       selectedDay: parseDate(this.props.selected) || XDate(true),
       topDay: parseDate(this.props.selected) || XDate(true),
-      pickedUpLoopsSelected: true,
-      availableLoopsSelected: false,
-      currentMonth : parseDate(this.props.selected) || XDate(true)
+      selectedTab:'available-loops',
+      currentMonth : parseDate(this.props.selected) || XDate(true),
     };
 
     this.onLayout = this.onLayout.bind(this);
@@ -230,27 +231,24 @@ export default class AgendaView extends Component {
   }
 
   onPickedUpLoopsPressed() {
-    console.log("pressed picked up");
-    if (!this.state.pickedUpLoopsSelected) {
+    if (this.state.selectedTab !== 'pickup-loops') {
       this.setState({
-        pickedUpLoopsSelected: true,
-        availableLoopsSelected: false
+        selectedTab:'pickup-loops',
       }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
     }
   }
 
   onAvailableLoopsPressed() {
-    console.log("pressed available");
-    if (!this.state.availableLoopsSelected) {
+    if (this.state.selectedTab !== 'available-loops') {
+
       this.setState({
-        pickedUpLoopsSelected: false,
-        availableLoopsSelected: true
+        selectedTab:'available-loops',
       }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
     }
   }
 
   renderPickedUpLoopsText() {
-    if (this.state.pickedUpLoopsSelected) {
+    if (this.state.selectedTab === 'pickup-loops')  {
       return (
         <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
           <Text 
@@ -277,7 +275,7 @@ export default class AgendaView extends Component {
   }
 
   renderAvailableLoopsText() {
-    if (this.state.availableLoopsSelected) {
+    if (this.state.selectedTab === 'available-loops')  {
       return (
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text 
@@ -316,6 +314,7 @@ export default class AgendaView extends Component {
         onDayChange={this.onDayChange.bind(this)}
         onScroll={() => {}}
         ref={(c) => this.list = c}
+        tabSelected={this.state.selectedTab}
         theme={this.props.theme}
       />
     );
@@ -409,6 +408,7 @@ export default class AgendaView extends Component {
                 firstDay={this.props.firstDay}
                 monthFormat={this.props.monthFormat}
                 rawData={this.props.rawData}
+                tabSelected={this.state.selectedTab}
                 unavailabilities={this.props.unavailabilities}
             />
           </Animated.View>
@@ -418,8 +418,10 @@ export default class AgendaView extends Component {
               style={this.styles.reservationsToggle}
               loopTypeChanged={this.props.loopTypeChanged}
           >
-            {this.renderPickedUpLoopsText()}
             {this.renderAvailableLoopsText()}
+            {this.renderPickedUpLoopsText()}
+
+
           </View>
           {this.renderReservations()}
         </View>
