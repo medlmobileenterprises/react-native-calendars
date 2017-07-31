@@ -180,6 +180,11 @@ export default class AgendaView extends Component {
       });
     }
   }
+  goBackToToday(){
+    const day = XDate(true)
+    this.chooseDay(day);
+    this.onDayChange(day);
+  }
 
   componentWillMount() {
     this.loadReservations(this.props);
@@ -312,7 +317,7 @@ export default class AgendaView extends Component {
             style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
             onPress={this.onAvailableLoopsPressed.bind(this)}
             >
-            Available Loops
+            Pick Up Loops
           </Text>
           <View style={{flex: 0, backgroundColor: '#036e33', height: 5, width: '70%', marginTop: 10}}/>          
         </View>
@@ -324,7 +329,7 @@ export default class AgendaView extends Component {
             style={{flex: 0, fontSize: 15, textAlign: 'center', color: '#dad9e3'}} 
             onPress={this.onAvailableLoopsPressed.bind(this)}
             >
-              Available Loops
+              Pick Up Loops
           </Text>
         </View>
       );
