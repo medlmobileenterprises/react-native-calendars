@@ -241,12 +241,12 @@ export default class AgendaView extends Component {
 
   onAvailableLoopsPressed() {
     if (this.state.selectedTab !== 'available-loops') {
-
       this.setState({
         selectedTab:'available-loops',
       }, this.updateMarkDates());
     }
   }
+
   updateMarkDates = () =>{
     var markDates = Object.assign(this.props.items,{});
     if(this.state.selectedTab === 'available-loops'){
@@ -283,9 +283,9 @@ export default class AgendaView extends Component {
         <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
           <Text 
             style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
-            onPress={this.onPickedUpLoopsPressed.bind(this)}
+            onPress={this.onAvailableLoopsPressed.bind(this)}
             >
-            Picked Up Loops
+            Booked Loops
           </Text>
           <View style={{flex: 0, backgroundColor: '#036e33', height: 5, width: '70%', marginTop: 10}}/>
         </View>
@@ -297,7 +297,7 @@ export default class AgendaView extends Component {
             style={{flex: 0, fontSize: 15, textAlign: 'center', color: '#dad9e3'}} 
             onPress={this.onPickedUpLoopsPressed.bind(this)}
             >
-              Picked Up Loops
+              Booked Up Loops
           </Text>
         </View>
       );
@@ -419,7 +419,12 @@ export default class AgendaView extends Component {
     return (
       <View onLayout={this.onLayout} style={[this.props.style, {flex: 1}]}>
         <Animated.View style={headerStyle}>
-          <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
+          <Animated.View style={{flex:1,
+                            transform:[{ translateY: contentTranslate }],
+                            elevation:4,
+                          shadowColor:'black',
+                        shadowOpacity:0.3,
+                         shadowOffset:{width:0,height:4}}}>
             <Calendar
                 theme={this.props.theme}
                 selected={[this.state.selectedDay]}
@@ -431,6 +436,7 @@ export default class AgendaView extends Component {
                 markedDates={this.state.markDates}
                 current={this.state.currentMonth}
                 markingType={this.props.markingType}
+
                 onDayPress={this.chooseDay}
                 displayLoadingIndicator={this.props.displayLoadingIndicator}
                 minDate={this.getCurrentDate()}

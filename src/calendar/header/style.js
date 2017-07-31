@@ -22,12 +22,6 @@ export default function(theme={}) {
     },
     arrowImage: {
       ...Platform.select({
-        ios: {
-          tintColor: appStyle.arrowColor
-        },
-        android: {
-          tintColor: appStyle.arrowColor
-        }
       })
     },
     week: {
