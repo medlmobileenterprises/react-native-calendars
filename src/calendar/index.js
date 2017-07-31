@@ -243,7 +243,7 @@ class Calendar extends Component {
       }
     }
     return (
-      <View style={[this.style.container, this.props.style]}>
+      <View style={this.props.style}>
         <CalendarHeader
           theme={this.props.theme}
           hideArrows={this.props.hideArrows}

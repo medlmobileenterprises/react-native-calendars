@@ -5,6 +5,7 @@ import {
   Dimensions,
   Animated,
   ViewPropTypes,
+  TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
@@ -18,9 +19,9 @@ import styleConstructor from './style';
 import { VelocityTracker } from '../input';
 
 //const HEADER_HEIGHT = 104;
-const HEADER_HEIGHT = 300;
+const HEADER_HEIGHT = 290;
 const KNOB_HEIGHT = 24;
-const calendarHeight = 300;
+const calendarHeight = 290;
 
 export default class AgendaView extends Component {
   static propTypes = {
@@ -283,57 +284,39 @@ export default class AgendaView extends Component {
     }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
   }
   renderPickedUpLoopsText() {
-    if (this.state.selectedTab === 'pickup-loops')  {
-      return (
-        <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
-          <Text 
-            style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
-            onPress={this.onAvailableLoopsPressed.bind(this)}
-            >
-            Booked Loops
-          </Text>
-          <View style={{flex: 0, backgroundColor: '#036e33', height: 5, width: '70%', marginTop: 10}}/>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{flex: 1}}>
-          <Text 
-            style={{flex: 0, fontSize: 15, textAlign: 'center', color: '#dad9e3'}} 
-            onPress={this.onPickedUpLoopsPressed.bind(this)}
-            >
-              Booked Up Loops
-          </Text>
-        </View>
-      );
+    let textColor = '#9d9d9d';
+    let underlineColor = 'transparent';
+    if (this.state.selectedTab === 'pickup-loops') {
+      textColor = '#343434';
+      underlineColor = '#036e33';
     }
+    return (
+      <TouchableOpacity onPress={this.onPickedUpLoopsPressed.bind(this)} style={{flex: 1, alignItems: 'center'}}>
+        <Text
+          style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: textColor}}>
+          Booked Loops
+        </Text>
+        <View style={{flex: 0, backgroundColor: underlineColor, height: 5, width: '70%', marginTop: 8}}/>
+      </TouchableOpacity>
+    );
   }
 
   renderAvailableLoopsText() {
-    if (this.state.selectedTab === 'available-loops')  {
-      return (
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text 
-            style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#5f5d70', marginTop: 10}} 
-            onPress={this.onAvailableLoopsPressed.bind(this)}
-            >
-            Pick Up Loops
-          </Text>
-          <View style={{flex: 0, backgroundColor: '#036e33', height: 5, width: '70%', marginTop: 10}}/>          
-        </View>
-      );
-    } else {
-      return (
-        <View style={{flex: 1}}>
-          <Text 
-            style={{flex: 0, fontSize: 15, textAlign: 'center', color: '#dad9e3'}} 
-            onPress={this.onAvailableLoopsPressed.bind(this)}
-            >
-              Pick Up Loops
-          </Text>
-        </View>
-      );
+    let textColor = '#9d9d9d';
+    let underlineColor = 'transparent';
+    if (this.state.selectedTab === 'available-loops') {
+      textColor = '#343434';
+      underlineColor = '#036e33';
     }
+    return (
+      <TouchableOpacity onPress={this.onAvailableLoopsPressed.bind(this)} style={{flex: 1, alignItems: 'center'}}>
+        <Text
+          style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: textColor}}>
+          Available Loops
+        </Text>
+        <View style={{flex: 0, backgroundColor: underlineColor, height: 5, width: '65%', marginTop: 8}}/>
+      </TouchableOpacity>
+    );
   }
 
   renderReservations() {
@@ -381,7 +364,7 @@ export default class AgendaView extends Component {
     return new Date();
   }
   render() {
-    const agendaHeight = this.viewHeight - HEADER_HEIGHT;
+    const agendaHeight = this.viewHeight - HEADER_HEIGHT - 12;
 
     const headerTranslate = this.state.scrollY.interpolate({
       inputRange: [0, agendaHeight],
@@ -422,51 +405,52 @@ export default class AgendaView extends Component {
     }
 
     return (
-      <View onLayout={this.onLayout} style={[this.props.style, {flex: 1}]}>
+      <View onLayout={this.onLayout}
+            style={this.props.style, {flex: 1}}>
         <Animated.View style={headerStyle}>
-          <Animated.View style={{flex:1,
-                            transform:[{ translateY: contentTranslate }],
-                            elevation:4,
-                          shadowColor:'black',
-                        shadowOpacity:0.3,
-                         shadowOffset:{width:0,height:4}}}>
+          <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
             <Calendar
-                theme={this.props.theme}
-                selected={[this.state.selectedDay]}
-                ref={(c) => this.calendar = c}
-                style={{height:calendarHeight}}
-                hideArrows={false}
-                hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
-                disableMonthChange={false}
-                markedDates={this.state.markDates}
-                current={this.state.currentMonth}
-                markingType={this.props.markingType}
-
-                onDayPress={this.chooseDay}
-                displayLoadingIndicator={this.props.displayLoadingIndicator}
-                minDate={this.getCurrentDate()}
-                maxDate={this.props.maxDate}
-                firstDay={this.props.firstDay}
-                monthFormat={this.props.monthFormat}
-                rawData={this.props.rawData}
-                tabSelected={this.state.selectedTab}
-                unavailabilities={this.props.unavailabilities}
+              theme={this.props.theme}
+              selected={[this.state.selectedDay]}
+              ref={(c) => this.calendar = c}
+              style={[{height: calendarHeight}, {
+                backgroundColor: '#ffffff',
+                shadowColor: '#DAD9E2',
+                shadowOffset: {
+                  width: 0,
+                  height: 10
+                },
+                shadowRadius: 5,
+                shadowOpacity: 1.0
+              }]}
+              hideArrows={false}
+              hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
+              disableMonthChange={false}
+              markedDates={this.props.items}
+              current={this.state.currentMonth}
+              markingType={this.props.markingType}
+              onDayPress={this.chooseDay}
+              displayLoadingIndicator={this.props.displayLoadingIndicator}
+              minDate={this.getCurrentDate()}
+              maxDate={this.props.maxDate}
+              firstDay={this.props.firstDay}
+              monthFormat={this.props.monthFormat}
+              rawData={this.props.rawData}
+              tabSelected={this.state.selectedTab}
+              unavailabilities={this.props.unavailabilities}
             />
           </Animated.View>
         </Animated.View>
         <View style={this.styles.reservations}>
           <View
-              style={this.styles.reservationsToggle}
-              loopTypeChanged={this.props.loopTypeChanged}
+            style={this.styles.reservationsToggle}
+            loopTypeChanged={this.props.loopTypeChanged}
           >
             {this.renderAvailableLoopsText()}
             {this.renderPickedUpLoopsText()}
-
-
           </View>
           {this.renderReservations()}
         </View>
-
       </View>
     );
   }
