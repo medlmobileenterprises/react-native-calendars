@@ -91,7 +91,14 @@ class ReactComp extends Component {
     this.selectedDay = props.selectedDay;
     this.updateDataSource(reservations.reservations);
   }
-
+  dayHasUnavailability(day) {
+    if (!this.props.unavailabilities) {return false;}
+    let date = new Date(day);
+    let hasUnavailability = this.props.unavailabilities.filter(function (obj) {
+       return (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate());
+    })
+    return (hasUnavailability.length > 0);
+  }
   componentWillReceiveProps(props) {
     if (!dateutils.sameDate(props.topDay, this.props.topDay)) {
       this.setState({
@@ -174,14 +181,14 @@ class ReactComp extends Component {
     if (res && res.length) {
       const obj =  res.reduce((result, reservation) => {
         if(this.props.tabSelected === 'pickup-loops'){
-          if(!reservation.bookingObj.available){
+          if(!reservation.bookingObj.available && !this.dayHasUnavailability(day)){
             result.push({reservation,
                           date: result.length ? false : day,
                           day});
           }
         }
         else if (this.props.tabSelected === 'available-loops'){
-          if(reservation.bookingObj.available){
+          if(reservation.bookingObj.available && !this.dayHasUnavailability(day)){
             result.push({reservation,
               date: result.length ? false : day,
               day});

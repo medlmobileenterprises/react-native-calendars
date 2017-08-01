@@ -195,7 +195,7 @@ export default class AgendaView extends Component {
     if (props.items) {
       this.setState({
         firstResevationLoad: false
-      },  this.updateMarkDates());
+      },  this.updateMarkDates(props.items));
     } else {
       this.loadReservations(props);
     }
@@ -241,7 +241,7 @@ export default class AgendaView extends Component {
     if (this.state.selectedTab !== 'pickup-loops') {
       this.setState({
         selectedTab:'pickup-loops',
-      }, this.updateMarkDates());
+      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay))));
     }
   }
 
@@ -249,15 +249,15 @@ export default class AgendaView extends Component {
     if (this.state.selectedTab !== 'available-loops') {
       this.setState({
         selectedTab:'available-loops',
-      }, this.updateMarkDates());
+      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay))));
     }
   }
 
-  updateMarkDates = () =>{
-    var markDates = Object.assign(this.props.items,{});
+  updateMarkDates = (items, completionBlock) =>{
+    var markDates = Object.assign({}, items);
     if(this.state.selectedTab === 'available-loops'){
       var availableMarkedDates = [];
-      for(var propertyName in this.props.items) {
+      for(var propertyName in items) {
         let arrayEvents = markDates[propertyName];
         availableMarkedDates = arrayEvents.filter((book)=>{
           return book.available;
@@ -269,7 +269,7 @@ export default class AgendaView extends Component {
     }
     else if (this.state.selectedTab === 'pickup-loops') {
       var availableMarkedDates = [];
-      for (var propertyName in this.props.items) {
+      for (var propertyName in items) {
         let arrayEvents = markDates[propertyName];
         availableMarkedDates = arrayEvents.filter((book) => {
           return !book.available;
@@ -281,7 +281,12 @@ export default class AgendaView extends Component {
     }
     this.setState({
       markDates:markDates
-    }, this.props.loopTypeChanged(xdateToData(this.state.selectedDay)));
+    }, ()=>{
+      if(completionBlock){
+        completionBlock();
+      }
+
+    });
   }
   renderPickedUpLoopsText() {
     let textColor = '#9d9d9d';
@@ -426,7 +431,7 @@ export default class AgendaView extends Component {
               hideArrows={false}
               hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
               disableMonthChange={false}
-              markedDates={this.props.items}
+              markedDates={this.state.markDates}
               current={this.state.currentMonth}
               markingType={this.props.markingType}
               onDayPress={this.chooseDay}
