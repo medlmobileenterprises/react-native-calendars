@@ -409,6 +409,7 @@ export default class AgendaView extends Component {
       );
     }
 
+    let shadowHeight = 10;
     return (
       <View onLayout={this.onLayout}
             style={this.props.style, {flex: 1}}>
@@ -423,10 +424,11 @@ export default class AgendaView extends Component {
                 shadowColor: '#DAD9E2',
                 shadowOffset: {
                   width: 0,
-                  height: 10
+                  height: shadowHeight
                 },
                 shadowRadius: 5,
-                shadowOpacity: 1.0
+                shadowOpacity: 1.0,
+                elevation: shadowHeight
               }]}
               hideArrows={false}
               hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
