@@ -104,10 +104,15 @@ class ReactComp extends Component {
       this.setState({
         reservations: []
       }, () => {
-        this.updateReservations(props);
+        setTimeout(()=>{
+          this.updateReservations(props);
+        }, 200);
       });
     } else {
-      this.updateReservations(props);
+      setTimeout(()=>{
+        this.updateReservations(props);
+      }, 200);
+
     }
   }
 
