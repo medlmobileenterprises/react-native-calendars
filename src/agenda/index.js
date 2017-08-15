@@ -5,7 +5,10 @@ import {
   Dimensions,
   Animated,
   ViewPropTypes,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+  Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
@@ -17,11 +20,17 @@ import Calendar from '../calendar'
 import ReservationsList from './reservation-list';
 import styleConstructor from './style';
 import { VelocityTracker } from '../input';
+const { width, height } = Dimensions.get("window");
 
 //const HEADER_HEIGHT = 104;
 const HEADER_HEIGHT = 290;
 const KNOB_HEIGHT = 24;
 const calendarHeight = 290;
+const statusBarHeight = Platform.os === 'ios'? 20: 28
+const navigationBarHeight = Platform.os === 'ios'?44+statusBarHeight:56+statusBarHeight;
+
+const reservationToggleHeight = 48;
+const listHeight = height - calendarHeight - navigationBarHeight - reservationToggleHeight;
 
 export default class AgendaView extends Component {
   static propTypes = {
@@ -30,7 +39,6 @@ export default class AgendaView extends Component {
 
     // agenda container style
     style: ViewPropTypes.style,
-
     // the list of items that have to be displayed in agenda. If you want to render item as empty date
     // the value of date key has to be an empty array []. If there exists no value for date key it is
     // considered that the date in question is not yet loaded
@@ -66,6 +74,8 @@ export default class AgendaView extends Component {
     rawData: PropTypes.array,
     // Unavailabilities for calendar use
     unavailabilities: PropTypes.array,
+    onRefreshCalendar: PropTypes.func,
+    refreshingCalendar: PropTypes.bool
 
   };
 
@@ -86,7 +96,8 @@ export default class AgendaView extends Component {
       topDay: parseDate(this.props.selected) || XDate(true),
       selectedTab:'available-loops',
       currentMonth : parseDate(this.props.selected) || XDate(true),
-      markDates:{}
+      markDates:{},
+
     };
 
     this.onLayout = this.onLayout.bind(this);
@@ -337,6 +348,7 @@ export default class AgendaView extends Component {
         onDayChange={this.onDayChange.bind(this)}
         onScroll={() => {}}
         ref={(c) => this.list = c}
+        style={{height:listHeight}}
         tabSelected={this.state.selectedTab}
         theme={this.props.theme}
       />
@@ -409,56 +421,123 @@ export default class AgendaView extends Component {
       );
     }
 
+
+    if(Platform.OS === 'ios'){
+      return this.renderCalendarIOS(headerStyle, contentTranslate);
+    }
+    else{
+      return this.renderCalendarAndroid(headerStyle, contentTranslate);
+    }
+  }
+
+  renderCalendarAndroid = (headerStyle, contentTranslate) =>{
     let shadowHeight = 10;
-    return (
-      <View onLayout={this.onLayout}
-            style={this.props.style, {flex: 1}}>
-        <Animated.View style={headerStyle}>
-          <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
+    return(
+    <View style={this.props.style, {flex: 1}} onLayout={this.onLayout}>
+      <Animated.View style={headerStyle}>
+        <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
+          <ScrollView
+              scrollEnabled={true}
+              refreshControl={<RefreshControl refreshing={this.props.refreshingCalendar}
+                                              onRefresh={this.props.onRefreshCalendar}/>}>
             <Calendar
-              theme={this.props.theme}
-              selected={[this.state.selectedDay]}
-              ref={(c) => this.calendar = c}
-              style={[{height: calendarHeight}, {
-                backgroundColor: '#ffffff',
-                shadowColor: '#DAD9E2',
-                shadowOffset: {
-                  width: 0,
-                  height: shadowHeight
-                },
-                shadowRadius: 5,
-                shadowOpacity: 1.0,
-                elevation: shadowHeight
-              }]}
-              hideArrows={false}
-              hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
-              disableMonthChange={false}
-              markedDates={this.state.markDates}
-              current={this.state.currentMonth}
-              markingType={this.props.markingType}
-              onDayPress={this.chooseDay}
-              displayLoadingIndicator={this.props.displayLoadingIndicator}
-              minDate={this.getCurrentDate()}
-              maxDate={this.props.maxDate}
-              firstDay={this.props.firstDay}
-              monthFormat={this.props.monthFormat}
-              rawData={this.props.rawData}
-              tabSelected={this.state.selectedTab}
-              unavailabilities={this.props.unavailabilities}
+                theme={this.props.theme}
+                selected={[this.state.selectedDay]}
+                ref={(c) => this.calendar = c}
+                style={[{height: calendarHeight}, {
+                  backgroundColor: '#ffffff',
+                  shadowColor: '#DAD9E2',
+                  shadowOffset: {
+                    width: 0,
+                    height: shadowHeight
+                  },
+                  shadowRadius: 5,
+                  shadowOpacity: 1.0,
+                  elevation: shadowHeight
+                }]}
+                hideArrows={false}
+                hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
+                disableMonthChange={false}
+                markedDates={this.state.markDates}
+                current={this.state.currentMonth}
+                markingType={this.props.markingType}
+                onDayPress={this.chooseDay}
+                displayLoadingIndicator={this.props.displayLoadingIndicator}
+                minDate={this.getCurrentDate()}
+                maxDate={this.props.maxDate}
+                firstDay={this.props.firstDay}
+                monthFormat={this.props.monthFormat}
+                rawData={this.props.rawData}
+                tabSelected={this.state.selectedTab}
+                unavailabilities={this.props.unavailabilities}
             />
-          </Animated.View>
+          </ScrollView>
         </Animated.View>
-        <View style={this.styles.reservations}>
-          <View
+      </Animated.View>
+      <View style={this.styles.reservations}>
+        <View
             style={this.styles.reservationsToggle}
             loopTypeChanged={this.props.loopTypeChanged}
-          >
-            {this.renderAvailableLoopsText()}
-            {this.renderPickedUpLoopsText()}
-          </View>
-          {this.renderReservations()}
+        >
+          {this.renderAvailableLoopsText()}
+          {this.renderPickedUpLoopsText()}
         </View>
+        {this.renderReservations()}
       </View>
-    );
+    </View>)
+  }
+  renderCalendarIOS(headerStyle, contentTranslate){
+    let shadowHeight = 10;
+    return(
+    <ScrollView style={this.props.style, {flex: 1}} onLayout={this.onLayout}
+                scrollEnabled={true}
+                refreshControl={<RefreshControl refreshing={this.props.refreshingCalendar}
+                                                onRefresh={this.props.onRefreshCalendar}/>}>
+      <Animated.View style={headerStyle}>
+        <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
+            <Calendar
+                theme={this.props.theme}
+                selected={[this.state.selectedDay]}
+                ref={(c) => this.calendar = c}
+                style={[{height: calendarHeight}, {
+                  backgroundColor: '#ffffff',
+                  shadowColor: '#DAD9E2',
+                  shadowOffset: {
+                    width: 0,
+                    height: shadowHeight
+                  },
+                  shadowRadius: 5,
+                  shadowOpacity: 1.0,
+                  elevation: shadowHeight
+                }]}
+                hideArrows={false}
+                hideExtraDays={this.props.hideExtraDays === undefined ? true : this.props.hideExtraDays}
+                disableMonthChange={false}
+                markedDates={this.state.markDates}
+                current={this.state.currentMonth}
+                markingType={this.props.markingType}
+                onDayPress={this.chooseDay}
+                displayLoadingIndicator={this.props.displayLoadingIndicator}
+                minDate={this.getCurrentDate()}
+                maxDate={this.props.maxDate}
+                firstDay={this.props.firstDay}
+                monthFormat={this.props.monthFormat}
+                rawData={this.props.rawData}
+                tabSelected={this.state.selectedTab}
+                unavailabilities={this.props.unavailabilities}
+            />
+        </Animated.View>
+      </Animated.View>
+      <View style={this.styles.reservations}>
+        <View
+            style={this.styles.reservationsToggle}
+            loopTypeChanged={this.props.loopTypeChanged}
+        >
+          {this.renderAvailableLoopsText()}
+          {this.renderPickedUpLoopsText()}
+        </View>
+        {this.renderReservations()}
+      </View>
+    </ScrollView>);
   }
 }
