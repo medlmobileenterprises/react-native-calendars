@@ -351,6 +351,7 @@ export default class AgendaView extends Component {
         style={{height:listHeight}}
         tabSelected={this.state.selectedTab}
         theme={this.props.theme}
+        unavailabitities={this.props.unavailabilities}
       />
     );
   }

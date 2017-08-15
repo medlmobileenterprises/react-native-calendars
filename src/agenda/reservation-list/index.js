@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
 import dateutils from '../../dateutils';
-import {xdateToData} from '../../interface';
+import {xdateToData, parseDate} from '../../interface';
 import styleConstructor from './style';
 
 class ReactComp extends Component {
@@ -92,10 +92,11 @@ class ReactComp extends Component {
     this.updateDataSource(reservations.reservations);
   }
   dayHasUnavailability(day) {
-    if (!this.props.unavailabilities) {return false;}
-    let date = new Date(day);
-    let hasUnavailability = this.props.unavailabilities.filter(function (obj) {
-       return (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate());
+    if (!this.props.unavailabitities) {return false;}
+    let date = parseDate(day);
+    let hasUnavailability = this.props.unavailabitities.filter(function (obj) {
+      let unavailableDate = parseDate(obj.starts_at);
+      return (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate());
     })
     return (hasUnavailability.length > 0);
   }
@@ -117,7 +118,7 @@ class ReactComp extends Component {
   }
 
   onScroll(event) {
- 
+
   }
 
   onRowLayoutChange(ind, event) {

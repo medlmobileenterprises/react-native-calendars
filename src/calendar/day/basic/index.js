@@ -46,12 +46,7 @@ class Day extends Component {
       };
     }
     let dot;
-    if (marked.marked) {
-      dotStyle.push(this.style.visibleDot);
-      dot = (<View style={dotStyle}/>);
-    } else if (!this.props.markingExists) {
-      textStyle.push(this.style.alignedText);
-    }
+
 
     if (this.props.state === 'selected' || marked.selected) {
       containerStyle.push(this.style.selected);
@@ -64,6 +59,12 @@ class Day extends Component {
     } else if (this.props.state === 'unavailable') {
       textStyle.push(this.style.unavailableText);
     } else if (this.props.state === 'event') {
+      if (marked.marked) {
+        dotStyle.push(this.style.visibleDot);
+        dot = (<View style={dotStyle}/>);
+      } else if (!this.props.markingExists) {
+        textStyle.push(this.style.alignedText);
+      }
       textStyle.push(this.style.eventText);
     }
     return (
