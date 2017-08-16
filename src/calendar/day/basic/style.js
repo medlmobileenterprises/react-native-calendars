@@ -34,6 +34,7 @@ export default function styleConstructor(theme={}) {
       color: appStyle.textDisabledColor
     },
     unavailableText: {
+      fontSize: 15,
       color: appStyle.textUnavailableColor
     },
     eventText: {
