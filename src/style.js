@@ -15,7 +15,7 @@ export const textDayFontFamily = 'Lato-Bold';
 export const textMonthFontFamily = 'Lato-Bold';
 export const textDayHeaderFontFamily = 'Lato-Bold';
 
-export const textDayFontSize = 12;
+export const textDayFontSize = 14;
 export const textMonthFontSize = 20;
 export const textDayHeaderFontSize = 12;
 

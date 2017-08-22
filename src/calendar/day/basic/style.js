@@ -15,7 +15,7 @@ export default function styleConstructor(theme={}) {
       color: appStyle.dayTextColor,
 
       backgroundColor: 'rgba(255, 255, 255, 0)',
-      marginTop: Platform.OS === 'android' ? 2 : 4
+      marginTop: 2
     },
     alignedText: {
       marginTop: Platform.OS === 'android' ? 2 : 4
@@ -34,7 +34,6 @@ export default function styleConstructor(theme={}) {
       color: appStyle.textDisabledColor
     },
     unavailableText: {
-      fontSize: 15,
       color: appStyle.textUnavailableColor
     },
     eventText: {
