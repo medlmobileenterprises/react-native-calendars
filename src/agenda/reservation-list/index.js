@@ -186,6 +186,15 @@ class ReactComp extends Component {
         return result;
       },[]);
       return obj;
+      if(obj.length){
+        return obj;
+      }
+      else{
+        return [{
+          date: iterator.clone(),
+          day
+        }];
+      }
     } else if (res) {
       return [{
         date: iterator.clone(),

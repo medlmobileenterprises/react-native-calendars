@@ -470,6 +470,7 @@ export default class AgendaView extends Component {
                 monthFormat={this.props.monthFormat}
                 rawData={this.props.rawData}
                 tabSelected={this.state.selectedTab}
+                selected={XDate()}
                 unavailabilities={this.props.unavailabilities}
             />
           </ScrollView>

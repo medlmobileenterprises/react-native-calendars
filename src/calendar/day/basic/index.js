@@ -56,6 +56,12 @@ class Day extends Component {
       textStyle.push(this.style.disabledText);
     } else if (this.props.state === 'today') {
       textStyle.push(this.style.todayText);
+      if (marked.marked) {
+        dotStyle.push(this.style.visibleDot);
+        dot = (<View style={dotStyle}/>);
+      } else if (!this.props.markingExists) {
+        textStyle.push(this.style.alignedText);
+      }
     } else if (this.props.state === 'unavailable') {
       textStyle.push(this.style.unavailableText);
     } else if (this.props.state === 'event') {
