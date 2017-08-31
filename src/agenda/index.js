@@ -382,7 +382,7 @@ export default class AgendaView extends Component {
     return new Date();
   }
   render() {
-    const agendaHeight = this.viewHeight - HEADER_HEIGHT - 12;
+    const agendaHeight = Math.max(0, this.viewHeight - HEADER_HEIGHT - 12);
 
     const headerTranslate = this.state.scrollY.interpolate({
       inputRange: [0, agendaHeight],
