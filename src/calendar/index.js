@@ -199,7 +199,7 @@ class Calendar extends Component {
     for (let i = 0; i < this.props.rawData.length; i++) {
       let date = new Date(day);
       let eventDate = new Date(this.props.rawData[i].tee_time_at);
-      if (date.getMonth() === eventDate.getMonth() && date.getDate() === eventDate.getDate()) {
+      if (date.getUTCMonth() === eventDate.getUTCMonth() && date.getUTCDate() === eventDate.getUTCDate()) {
         return true;
       }
     }
