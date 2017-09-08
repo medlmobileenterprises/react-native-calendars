@@ -380,9 +380,16 @@ export default class AgendaView extends Component {
     }
   }
   onMonthChange = (currentMonth) =>{
-    currentMonth.setDate(1);
+    let today = this.getCurrentDate();
+    if((currentMonth.getUTCMonth() === today.getUTCMonth()) && (currentMonth.getUTCFullYear() === today.getUTCFullYear())){
+      currentMonth.setDate(today.getDate());
+    }
+    else{
+      currentMonth.setDate(1);
+    }
     this.setState({selectedDay:currentMonth});
   };
+
   getCurrentDate() {
     return new Date();
   }
