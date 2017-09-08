@@ -101,7 +101,7 @@ class Calendar extends Component {
       if (!doNotTriggerListeners) {
         const currMont = this.state.currentMonth.clone();
         if (this.props.onMonthChange) {
-          this.props.onMonthChange(xdateToData(currMont));
+          this.props.onMonthChange(currMont);
         }
         if (this.props.onVisibleMonthsChange) {
           this.props.onVisibleMonthsChange([xdateToData(currMont)]);

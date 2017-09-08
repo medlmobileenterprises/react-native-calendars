@@ -78,6 +78,7 @@ export default class AgendaView extends Component {
     refreshingCalendar: PropTypes.bool,
     tabSelected: PropTypes.oneOf(['pickup-loops', 'available-loops']),
 
+
   };
 
   constructor(props) {
@@ -369,8 +370,6 @@ export default class AgendaView extends Component {
     if(diff !== 0){
       this.calendar.addMonth(diff);
     }
-
-
     this.setState({
       selectedDay: parseDate(day),
       currentMonth:parseDate(day)
@@ -380,6 +379,10 @@ export default class AgendaView extends Component {
       this.props.onDayChange(xdateToData(newDate));
     }
   }
+  onMonthChange = (currentMonth) =>{
+    currentMonth.setDate(1);
+    this.setState({selectedDay:currentMonth});
+  };
   getCurrentDate() {
     return new Date();
   }
@@ -470,6 +473,7 @@ export default class AgendaView extends Component {
                 maxDate={this.props.maxDate}
                 firstDay={this.props.firstDay}
                 monthFormat={this.props.monthFormat}
+                onMonthChange={this.onMonthChange}
                 rawData={this.props.rawData}
                 tabSelected={this.state.selectedTab}
                 unavailabilities={this.props.unavailabilities}
@@ -526,6 +530,7 @@ export default class AgendaView extends Component {
                 firstDay={this.props.firstDay}
                 monthFormat={this.props.monthFormat}
                 rawData={this.props.rawData}
+                onMonthChange={this.onMonthChange}
                 tabSelected={this.state.selectedTab}
                 unavailabilities={this.props.unavailabilities}
             />

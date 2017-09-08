@@ -30,7 +30,6 @@ class ReactComp extends Component {
     // the value of date key kas to be an empty array []. If there exists no value for date key it is
     // considered that the date in question is not yet loaded
     reservations: PropTypes.object,
-
     selectedDay: PropTypes.instanceOf(XDate),
     topDay: PropTypes.instanceOf(XDate),
     tabSelected: PropTypes.oneOf(['pickup-loops', 'available-loops']),
@@ -216,7 +215,7 @@ class ReactComp extends Component {
     let reservations = [];
     if (this.state.reservations && this.state.reservations.length) {
       const iterator = this.state.reservations[0].day.clone();
-      while (iterator.getTime() < props.selectedDay.getTime()) {
+      while ((iterator.getTime() < props.selectedDay.getTime()) && (iterator.getUTCMonth() === props.selectedDay.getUTCMonth())) {
         const res = this.getReservationsForDay(iterator, props);
         if (!res) {
           reservations = [];
@@ -230,9 +229,11 @@ class ReactComp extends Component {
     const scrollPosition = reservations.length;
     const iterator = props.selectedDay.clone();
     for (let i = 0; i < 31; i++) {
-      const res = this.getReservationsForDay(iterator, props);
-      if (res) {
-        reservations = reservations.concat(res);
+      if((iterator.getUTCMonth() === this.props.selectedDay.getUTCMonth()) && (iterator.getUTCFullYear() === this.props.selectedDay.getUTCFullYear())){
+        const res = this.getReservationsForDay(iterator, props);
+        if (res) {
+          reservations = reservations.concat(res);
+        }
       }
       iterator.addDays(1);
     }
@@ -241,9 +242,10 @@ class ReactComp extends Component {
   }
 
   render() {
-    if (!this.props.reservations || !this.props.reservations[this.props.selectedDay.toString('yyyy-MM-dd')]) {
-      return (<ActivityIndicator style={{marginTop: 80}}/>);
+    if (!this.state.reservations || this.state.reservations.length <= 0) {
+      return (<Text style={{marginTop: 80, alignSelf:'center'}}>No bookings available for selected day.</Text>);
     }
+
     return (
       <ListView
         ref={(c) => this.list = c}
