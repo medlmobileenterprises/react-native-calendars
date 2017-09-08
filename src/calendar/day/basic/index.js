@@ -73,6 +73,12 @@ class Day extends Component {
       }
       textStyle.push(this.style.eventText);
     }
+    else{
+      if (marked.marked) {
+        dotStyle.push(this.style.visibleDot);
+        dot = (<View style={dotStyle}/>);
+      }
+    }
     return (
       <TouchableOpacity style={containerStyle} onPress={this.props.onPress}>
         <Text style={textStyle}>{String(this.props.children)}</Text>
