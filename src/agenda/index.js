@@ -75,7 +75,8 @@ export default class AgendaView extends Component {
     // Unavailabilities for calendar use
     unavailabilities: PropTypes.array,
     onRefreshCalendar: PropTypes.func,
-    refreshingCalendar: PropTypes.bool
+    refreshingCalendar: PropTypes.bool,
+    tabSelected: PropTypes.oneOf(['pickup-loops', 'available-loops']),
 
   };
 
@@ -94,7 +95,7 @@ export default class AgendaView extends Component {
       firstResevationLoad: false,
       selectedDay: parseDate(this.props.selected) || XDate(true),
       topDay: parseDate(this.props.selected) || XDate(true),
-      selectedTab:'available-loops',
+      selectedTab:this.props.tabSelected,
       currentMonth : parseDate(this.props.selected) || XDate(true),
       markDates:{},
 
@@ -199,6 +200,7 @@ export default class AgendaView extends Component {
   }
 
   componentWillMount() {
+    this.setState({tabSelected:this.props.tabSelected});
     this.loadReservations(this.props);
   }
 
@@ -252,7 +254,7 @@ export default class AgendaView extends Component {
     if (this.state.selectedTab !== 'pickup-loops') {
       this.setState({
         selectedTab:'pickup-loops',
-      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay))));
+      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay), this.state.selectedTab)));
     }
   }
 
@@ -260,7 +262,7 @@ export default class AgendaView extends Component {
     if (this.state.selectedTab !== 'available-loops') {
       this.setState({
         selectedTab:'available-loops',
-      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay))));
+      }, this.updateMarkDates(this.props.items, ()=>this.props.loopTypeChanged(xdateToData(this.state.selectedDay), this.state.selectedTab)));
     }
   }
 
