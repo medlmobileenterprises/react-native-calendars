@@ -187,7 +187,7 @@ class Calendar extends Component {
     for (let i = 0; i < this.props.unavailabilities.length; i++) {
       let date = new Date(day);
       let unavailableDate = new Date(this.props.unavailabilities[i].starts_at);
-      if (date.getUTCMonth() === unavailableDate.getUTCMonth() && date.getUTCDate() === unavailableDate.getUTCDate()) {
+      if (date.getUTCFullYear() == unavailableDate.getUTCFullYear() && date.getUTCMonth() === unavailableDate.getUTCMonth() && date.getUTCDate() === unavailableDate.getUTCDate()) {
         return true;
       }
     }
