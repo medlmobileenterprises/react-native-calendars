@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
-import {parseDate, xdateToData, parseMonthInt} from '../interface';
+import {parseDate, xdateToData, parseMonthInt, parseYearInt} from '../interface';
 import dateutils from '../dateutils';
 import CalendarList from '../calendar-list';
 import Calendar from '../calendar'
@@ -360,14 +360,20 @@ export default class AgendaView extends Component {
   }
 
   onDayChange(day) {
-    const newDate = parseDate(day);
+    const newDate       = parseDate(day);
     const withAnimation = dateutils.sameMonth(newDate, this.state.selectedDay);
+    let currentMonth    = parseMonthInt(this.state.selectedDay);
+    let newMonth        = parseMonthInt(day);
 
-    // this.calendar.scrollToDay(day, this.calendarOffset(),  withAnimation);
-    let currentMonth = parseMonthInt(this.state.selectedDay);
-    let newMonth = parseMonthInt(day);
+    let currentYear     = parseYearInt(this.state.selectedDay);
+    let newYear         = parseYearInt(day);
+
+    let diffYear = newYear - currentYear;
     let diff = newMonth - currentMonth
     if(diff !== 0){
+      if(diffYear != 0){
+        diff += diffYear * 12;
+      }
       this.calendar.addMonth(diff);
     }
     this.setState({

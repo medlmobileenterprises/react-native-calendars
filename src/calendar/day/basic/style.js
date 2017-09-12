@@ -10,7 +10,7 @@ export default function styleConstructor(theme={}) {
       alignItems: 'center'
     },
     text: {
-      fontSize: appStyle.textDayFontSize,
+      fontSize: Platform.OS === 'ios' ? appStyle.textDayFontSize : appStyle.textDayAndroidFontSize,
       fontFamily: appStyle.textDayFontFamily,
       color: appStyle.dayTextColor,
 

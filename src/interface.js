@@ -41,9 +41,16 @@ function parseMonthInt(d){
   }
   return null;
 }
+function parseYearInt(d){
+  if(d instanceof XDate){
+    return parseInt(d.getFullYear());
+  }
+  return null;
+}
 module.exports = {
   xdateToData,
   parseDate,
-  parseMonthInt
+  parseMonthInt,
+  parseYearInt
 };
 
