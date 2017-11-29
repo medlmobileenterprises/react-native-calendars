@@ -95,7 +95,7 @@ class ReactComp extends Component {
     let date = parseDate(day);
     let hasUnavailability = this.props.unavailabitities.filter(function (obj) {
       let unavailableDate = parseDate(obj.starts_at);
-      return (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate());
+      return (date.getMonth() === unavailableDate.getMonth() && date.getDate() === unavailableDate.getDate() && date.getFullYear() === unavailableDate.getFullYear());
     })
     return (hasUnavailability.length > 0);
   }
